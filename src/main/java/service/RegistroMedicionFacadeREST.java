@@ -198,6 +198,7 @@ public class RegistroMedicionFacadeREST extends AbstractFacade<RegistroMedicion>
                 this.opcionFacadeLocal.create(opcion);
 
                 System.out.println("OPCION----" + opcion);
+                this.opcion =new Opcion();
             }
 
             return "200";
