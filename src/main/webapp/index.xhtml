@@ -4,10 +4,6 @@
                 xmlns:h="http://xmlns.jcp.org/jsf/html"
                 template="#{layoutMB.template}">
 
-    <ui:define name="metadata">
-        <ui:param name="renderBreadCrumb" value="false"/>
-    </ui:define>
-
     <ui:define name="title">
         <div class="pull-right hidden-xs">
             <a href="https://adminfaces.github.io/site/" target="_blank">
@@ -18,13 +14,14 @@
       
         <h2 class="align-center">
             Resultados  <span class="text-aqua"> <i><a href="https://adminfaces.github.io/site/" target="_blank"
-                                                          style="text-transform: none;text-decoration: none"> Expo</a></i></span>Productiva 2019
+                                                          style="text-transform: none;text-decoration: none"> ExpoProductiva 2019</a></i></span>
             <br/>
             <small>Proporcionados por <p:link value="altoque.online" href="http://primefaces.org"/>
             </small>
         </h2>
     </ui:define>
 
+    <ui:param name="enableSlideMenu" value="false"></ui:param>
 
     <ui:define name="body">
           <!--

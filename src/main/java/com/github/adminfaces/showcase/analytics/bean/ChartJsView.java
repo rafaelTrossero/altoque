@@ -6,6 +6,7 @@
 package com.github.adminfaces.showcase.analytics.bean;
 
 
+import bean.RegistroMedicionMB;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import org.primefaces.event.ItemSelectEvent;
 import org.primefaces.model.charts.ChartData;
 import org.primefaces.model.charts.axes.cartesian.CartesianScales;
@@ -54,6 +56,9 @@ import org.primefaces.model.charts.radar.RadarChartOptions;
 @ManagedBean
 public class ChartJsView implements Serializable {
      
+    @Inject
+    private RegistroMedicionMB registroMedicionMB;
+    
     private PieChartModel pieModel;
      
     private PolarAreaChartModel polarAreaModel;
@@ -106,10 +111,10 @@ public class ChartJsView implements Serializable {
          
         PieChartDataSet dataSet = new PieChartDataSet();
         List<Number> values = new ArrayList<>();
-        values.add(300);
-        values.add(50);
-        values.add(100);
-        values.add(100);
+         values.add(registroMedicionMB.getCantidadGenial());
+        values.add(registroMedicionMB.getCantidadBueno());
+        values.add(registroMedicionMB.getCantidadMal());
+        values.add(registroMedicionMB.getCantidadPesimo());
         dataSet.setData(values);
          
         List<String> bgColors = new ArrayList<>();
@@ -282,10 +287,10 @@ public class ChartJsView implements Serializable {
         barDataSet.setLabel("Resultado altoque");
          
         List<Number> values = new ArrayList<>();
-        values.add(85);
-        values.add(72);
-        values.add(36);
-        values.add(12);
+        values.add(registroMedicionMB.getCantidadGenial());
+        values.add(registroMedicionMB.getCantidadBueno());
+        values.add(registroMedicionMB.getCantidadMal());
+        values.add(registroMedicionMB.getCantidadPesimo());
        
         barDataSet.setData(values);
          

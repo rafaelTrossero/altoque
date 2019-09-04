@@ -30,4 +30,8 @@ public interface OpcionFacadeLocal {
 
     int count();
     
+     List<Opcion> findByBoton(Integer boton);
+    
+    
+    
 }

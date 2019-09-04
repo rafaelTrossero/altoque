@@ -7,6 +7,7 @@ package entidad;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -55,6 +57,9 @@ public class Medicion implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
+    
+    @OneToMany(mappedBy = "medicion")
+    private List<Opcion> lstOpcion;
 
     public Medicion() {
     }
@@ -99,6 +104,14 @@ public class Medicion implements Serializable {
 
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public List<Opcion> getLstOpcion() {
+        return lstOpcion;
+    }
+
+    public void setLstOpcion(List<Opcion> lstOpcion) {
+        this.lstOpcion = lstOpcion;
     }
 
     @Override

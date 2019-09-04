@@ -186,14 +186,14 @@ public class RegistroMedicionFacadeREST extends AbstractFacade<RegistroMedicion>
             this.medicionFacadeLocal.create(medicion);
 
             Iterator<Opcion> it1 = registro.getOpciones().iterator();
-
+            System.out.println("la cantidad de opciones es----     " + registro.getOpciones().size());
             while (it1.hasNext()) {
 
                 Opcion tmp = it1.next();
 
                 opcion.setBoton(tmp.getBoton());
                 opcion.setTs(tmp.getTs());
-                opcion.setMedicionId(medicion.getId());
+                opcion.setMedicion(medicion);
                 
                 this.opcionFacadeLocal.create(opcion);
 

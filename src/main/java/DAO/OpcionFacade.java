@@ -6,9 +6,11 @@
 package DAO;
 
 import entidad.Opcion;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,20 @@ public class OpcionFacade extends AbstractFacade<Opcion> implements OpcionFacade
 
     public OpcionFacade() {
         super(Opcion.class);
+    }
+
+    @Override
+    public List<Opcion> findByBoton(Integer boton) {
+         try {
+           
+            Query q = em.createNamedQuery("Opcion.findByBoton");
+            q.setParameter("boton", boton);
+           
+            
+            return (List<Opcion>) q.getResultList();
+        } catch (Exception e) {
+            return null;
+        }
     }
     
 }

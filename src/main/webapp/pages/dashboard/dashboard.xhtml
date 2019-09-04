@@ -9,13 +9,15 @@
         </h1>
     </section>
     <p:spacer height="15px"/>
+    <h:form id="formResultados">
+        <p:poll interval="120"  update="formResultados" />
     <div class="row">
 
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-blue-gradient">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>#{registroMedicionMB.buscarCantidadGenial()}</h3>
 
                     <p>Les pareció Genial!</p>
 
@@ -32,7 +34,7 @@
             <!-- small box -->
             <div class="small-box bg-green-gradient">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>#{registroMedicionMB.buscarCantidadBueno()}</h3>
 
                     <p>Les pareció Bien</p>
                 </div>
@@ -53,7 +55,7 @@
             <!-- small box -->
             <div class="small-box bg-yellow-gradient">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>#{registroMedicionMB.buscarCantidadMal()}</h3>
 
                     <p>Les pareció Mal</p>
                 </div>
@@ -68,7 +70,7 @@
             <!-- small box -->
             <div class="small-box bg-red-gradient">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3>#{registroMedicionMB.buscarCantidadPesimo()}</h3>
 
                     <p>Les pareció Horrible</p>
                 </div>
@@ -114,7 +116,7 @@
         </div>
     </div>
 
-
+</h:form>
 
 
 

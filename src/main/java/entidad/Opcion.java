@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -29,7 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Opcion.findAll", query = "SELECT o FROM Opcion o")
     , @NamedQuery(name = "Opcion.findById", query = "SELECT o FROM Opcion o WHERE o.id = :id")
-    , @NamedQuery(name = "Opcion.findByMedicionId", query = "SELECT o FROM Opcion o WHERE o.medicionId = :medicionId")
+    , @NamedQuery(name = "Opcion.findByMedicion", query = "SELECT o FROM Opcion o WHERE o.medicion = :medicion")
     , @NamedQuery(name = "Opcion.findByBoton", query = "SELECT o FROM Opcion o WHERE o.boton = :boton")
     , @NamedQuery(name = "Opcion.findByTs", query = "SELECT o FROM Opcion o WHERE o.ts = :ts")})
 public class Opcion implements Serializable {
@@ -39,8 +41,10 @@ public class Opcion implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
-    @Column(name = "medicion_id")
-    private Integer medicionId;
+ 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "medicion")
+    private Medicion medicion;
     @Basic(optional = false)
     @NotNull
     @Column(name = "boton")
@@ -72,13 +76,15 @@ public class Opcion implements Serializable {
         this.id = id;
     }
 
-    public Integer getMedicionId() {
-        return medicionId;
+    public Medicion getMedicion() {
+        return medicion;
     }
 
-    public void setMedicionId(Integer medicionId) {
-        this.medicionId = medicionId;
+    public void setMedicion(Medicion medicion) {
+        this.medicion = medicion;
     }
+
+   
 
     public int getBoton() {
         return boton;
