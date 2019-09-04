@@ -14,12 +14,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import entidad.Medicion;
+import entidad.Opcion;
 import entidad.RegistroMedicion;
 import java.text.SimpleDateFormat;
+import java.util.Iterator;
 
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,15 +46,20 @@ public class RegistroMedicionFacadeREST extends AbstractFacade<RegistroMedicion>
 
     @PersistenceContext(unitName = "roiPU")
     private EntityManager em;
-    
+    @EJB
     private RegistroMedicionFacadeLocal registroMedicionFacadeLocal;
-     private MedicionFacadeLocal medicionFacadeLocal;
-      private OpcionFacadeLocal opcionFacadeLocal;
-     private Medicion medicion;
-   
+    @EJB
+    private MedicionFacadeLocal medicionFacadeLocal;
+    @EJB
+    private OpcionFacadeLocal opcionFacadeLocal;
+    private Medicion medicion;
+    private Opcion opcion;
+
     public RegistroMedicionFacadeREST() {
         super(RegistroMedicion.class);
-        medicion = new Medicion();
+        this.medicion = new Medicion();
+        this.opcion = new Opcion();
+
     }
 
     public EntityManager getEm() {
@@ -92,6 +100,14 @@ public class RegistroMedicionFacadeREST extends AbstractFacade<RegistroMedicion>
 
     public void setMedicion(Medicion medicion) {
         this.medicion = medicion;
+    }
+
+    public Opcion getOpcion() {
+        return opcion;
+    }
+
+    public void setOpcion(Opcion opcion) {
+        this.opcion = opcion;
     }
 
     @POST
@@ -152,36 +168,37 @@ public class RegistroMedicionFacadeREST extends AbstractFacade<RegistroMedicion>
     @Consumes({MediaType.APPLICATION_JSON})
     @Produces({MediaType.APPLICATION_JSON})
     public String registrar_medicion(String json) {
-        
-        
-        try {
 
+        try {
+            System.out.println("MEDICIoooooooON----" + medicion);
             final Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
             RegistroMedicion registro = gson.fromJson(json, RegistroMedicion.class);
-            System.out.println("json es----" +json);
-            System.out.println("registroooo----mac" +registro.getMac());
-            System.out.println("registroooo----" +registro.getOpciones().get(0).getBoton());
-             System.out.println("registroooo----ts" +registro.getOpciones().get(0).getTs());
-             
-             medicion.setBateria(registro.getBateria().toString());
-             medicion.setMac(registro.getMac().toString());
+            System.out.println("json es----" + json);
+            System.out.println("registroooo----mac" + registro.getMac());
+            System.out.println("registroooo----" + registro.getOpciones().get(0).getBoton());
+            System.out.println("registroooo----ts" + registro.getOpciones().get(0).getTs());
+
+            medicion.setBateria(registro.getBateria().toString());
+            medicion.setMac(registro.getMac().toString());
             medicion.setCreatedAt(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").parse(registro.getOpciones().get(0).getTs()));
-             System.out.println("setCreatedAt----" +medicion.getCreatedAt());
-              System.out.println("MEDICION----" +medicion);
-             this.medicionFacadeLocal.create(medicion);
-/*
-            if (jsonTree.isJsonObject()) {
-                JsonObject jsonObject = jsonTree.getAsJsonObject();
+            System.out.println("setCreatedAt----" + medicion.getCreatedAt());
+            
+            this.medicionFacadeLocal.create(medicion);
 
-                JsonElement mac = jsonObject.get("mac");
+            Iterator<Opcion> it1 = registro.getOpciones().iterator();
 
-                JsonElement imei = jsonObject.get("imei");
+            while (it1.hasNext()) {
 
-             //   this.setDispositivo(dispositivoFacadeLocal.FindDispositivoByMAC(mac.getAsString()));
+                Opcion tmp = it1.next();
 
-              //  msjAenviarFacadeLocal.editarmsj(msj.getId().toString(), msj.getEnviado(), dispositivo);
+                opcion.setBoton(tmp.getBoton());
+                opcion.setTs(tmp.getTs());
+                opcion.setMedicionId(medicion.getId());
+                
+                this.opcionFacadeLocal.create(opcion);
 
-            }*/
+                System.out.println("OPCION----" + opcion);
+            }
 
             return "200";
         } catch (Exception ex) {
