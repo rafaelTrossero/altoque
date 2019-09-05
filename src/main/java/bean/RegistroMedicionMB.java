@@ -7,6 +7,8 @@ package bean;
 
 import DAO.OpcionFacadeLocal;
 import java.io.Serializable;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import org.omnifaces.cdi.ViewScoped;
@@ -25,17 +27,20 @@ public class RegistroMedicionMB implements Serializable {
     @EJB
     private OpcionFacadeLocal opcionFacadeLocal;
 
-    Integer cantidadGenial;
-    Integer cantidadMal;
-    Integer cantidadBueno;
-    Integer cantidadPesimo;
+    Float cantidadGenial;
+    Float cantidadMal;
+    Float cantidadBueno;
+    Float cantidadPesimo;
+    Integer cantidadTotalOpiniones;
 
     public RegistroMedicionMB() {
 
-        this.cantidadGenial = new Integer(0);
-        this.cantidadMal = new Integer(0);
-        this.cantidadBueno = new Integer(0);
-        this.cantidadPesimo = new Integer(0);
+        this.cantidadGenial = new Float(0);
+        this.cantidadMal = new Float(0);
+        this.cantidadBueno = new Float(0);
+        this.cantidadPesimo = new Float(0);
+         this.cantidadTotalOpiniones  = new Integer(0);
+   
     }
 
     public OpcionFacadeLocal getOpcionFacadeLocal() {
@@ -46,68 +51,113 @@ public class RegistroMedicionMB implements Serializable {
         this.opcionFacadeLocal = opcionFacadeLocal;
     }
 
-    public Integer getCantidadGenial() {
+    public Float getCantidadGenial() {
         return cantidadGenial;
     }
 
-    public void setCantidadGenial(Integer cantidadGenial) {
+    public void setCantidadGenial(Float cantidadGenial) {
         this.cantidadGenial = cantidadGenial;
     }
 
-    public Integer getCantidadMal() {
+    public Float getCantidadMal() {
         return cantidadMal;
     }
 
-    public void setCantidadMal(Integer cantidadMal) {
+    public void setCantidadMal(Float cantidadMal) {
         this.cantidadMal = cantidadMal;
     }
 
-    public Integer getCantidadBueno() {
+    public Float getCantidadBueno() {
         return cantidadBueno;
     }
 
-    public void setCantidadBueno(Integer cantidadBueno) {
+    public void setCantidadBueno(Float cantidadBueno) {
         this.cantidadBueno = cantidadBueno;
     }
 
-    public Integer getCantidadPesimo() {
+    public Float getCantidadPesimo() {
         return cantidadPesimo;
     }
 
-    public void setCantidadPesimo(Integer cantidadPesimo) {
+    public void setCantidadPesimo(Float cantidadPesimo) {
         this.cantidadPesimo = cantidadPesimo;
     }
 
-    public Integer buscarCantidadGenial() {
+    public Integer getCantidadTotalOpiniones() {
+        return cantidadTotalOpiniones;
+    }
 
-        this.setCantidadGenial(this.opcionFacadeLocal.findByBoton(1).size());
+    public void setCantidadTotalOpiniones(Integer cantidadTotalOpiniones) {
+        this.cantidadTotalOpiniones = opcionFacadeLocal.findAll().size();
+    }
 
-        return cantidadGenial;
+    public String buscarCantidadGenial() {
+        this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
+           
+     
+        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones());
+        this.setCantidadGenial((float) (this.opcionFacadeLocal.findByBoton(1).size() * 100) / cantidadTotalOpiniones);
+
+        DecimalFormat df = new DecimalFormat("##.##");
+        df.setRoundingMode(RoundingMode.DOWN);
+
+        
+        return  df.format(cantidadGenial);
 
     }
 
-    public Integer buscarCantidadBueno() {
+    public String buscarCantidadBueno() {
+     this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
+           
+     
+        
+        this.setCantidadBueno((float) (this.opcionFacadeLocal.findByBoton(2).size() * 100) / cantidadTotalOpiniones);
 
-        this.setCantidadBueno(this.opcionFacadeLocal.findByBoton(2).size());
+        
+        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones() + "las numero 2 son____: " +this.opcionFacadeLocal.findByBoton(2).size());
+        DecimalFormat df = new DecimalFormat("##.##");
+        df.setRoundingMode(RoundingMode.DOWN);
 
-        return cantidadBueno;
+        
+        return  df.format(cantidadBueno);
+
+        
 
     }
 
-    public Integer buscarCantidadMal() {
+    public String buscarCantidadMal() {
 
-        this.setCantidadMal(this.opcionFacadeLocal.findByBoton(3).size());
+           this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
+           
+     
+        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones());
+        this.setCantidadMal((float) (this.opcionFacadeLocal.findByBoton(3).size() * 100) / cantidadTotalOpiniones);
 
-        return cantidadMal;
+        DecimalFormat df = new DecimalFormat("##.##");
+        df.setRoundingMode(RoundingMode.DOWN);
+
+        
+        return  df.format(cantidadMal);
+
+      
 
     }
 
-    public Integer buscarCantidadPesimo() {
+    public String buscarCantidadPesimo() {
 
-        this.setCantidadPesimo(this.opcionFacadeLocal.findByBoton(4).size());
+          this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
+           
+     
+        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones());
+        this.setCantidadPesimo((float) (this.opcionFacadeLocal.findByBoton(4).size() * 100) / cantidadTotalOpiniones);
 
-        return cantidadPesimo;
+        DecimalFormat df = new DecimalFormat("##.##");
+        df.setRoundingMode(RoundingMode.DOWN);
 
+        
+        return  df.format(cantidadPesimo);
+
+        
     }
 
 }

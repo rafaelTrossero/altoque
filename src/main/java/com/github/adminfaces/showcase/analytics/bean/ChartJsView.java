@@ -334,7 +334,7 @@ public class ChartJsView implements Serializable {
          
         Title title = new Title();
         title.setDisplay(true);
-        title.setText("Bar Chart");
+        title.setText("ExpoProductiva 2019");
         options.setTitle(title);
  
         Legend legend = new Legend();
