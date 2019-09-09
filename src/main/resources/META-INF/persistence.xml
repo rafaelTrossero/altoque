@@ -3,7 +3,9 @@
   <persistence-unit name="roiPU" transaction-type="JTA">
     <jta-data-source>java:app/roi</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties>
+     <properties>
+      <property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+      <property name="javax.persistence.schema-generation.database.action" value="create"/>
     </properties>
   </persistence-unit>
 </persistence>

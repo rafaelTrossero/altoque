@@ -5,6 +5,7 @@
  */
 package bean;
 
+import DAO.ConfiguracionesFacadeLocal;
 import DAO.OpcionFacadeLocal;
 import java.io.Serializable;
 import java.math.RoundingMode;
@@ -26,6 +27,8 @@ public class RegistroMedicionMB implements Serializable {
      */
     @EJB
     private OpcionFacadeLocal opcionFacadeLocal;
+    @EJB
+    private ConfiguracionesFacadeLocal configuracionesFacadeLocal;
 
     Float cantidadGenial;
     Float cantidadMal;
@@ -39,8 +42,8 @@ public class RegistroMedicionMB implements Serializable {
         this.cantidadMal = new Float(0);
         this.cantidadBueno = new Float(0);
         this.cantidadPesimo = new Float(0);
-         this.cantidadTotalOpiniones  = new Integer(0);
-   
+        this.cantidadTotalOpiniones = new Integer(0);
+
     }
 
     public OpcionFacadeLocal getOpcionFacadeLocal() {
@@ -93,71 +96,58 @@ public class RegistroMedicionMB implements Serializable {
 
     public String buscarCantidadGenial() {
         this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
-           
-     
-        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones());
         this.setCantidadGenial((float) (this.opcionFacadeLocal.findByBoton(1).size() * 100) / cantidadTotalOpiniones);
 
         DecimalFormat df = new DecimalFormat("##.##");
         df.setRoundingMode(RoundingMode.DOWN);
 
-        
-        return  df.format(cantidadGenial);
+        return df.format(cantidadGenial);
 
     }
 
     public String buscarCantidadBueno() {
-     this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
-           
-     
-        
-        this.setCantidadBueno((float) (this.opcionFacadeLocal.findByBoton(2).size() * 100) / cantidadTotalOpiniones);
+        this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
 
-        
-        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones() + "las numero 2 son____: " +this.opcionFacadeLocal.findByBoton(2).size());
+        this.setCantidadBueno((float) (this.opcionFacadeLocal.findByBoton(2).size() * 100) / cantidadTotalOpiniones);
         DecimalFormat df = new DecimalFormat("##.##");
         df.setRoundingMode(RoundingMode.DOWN);
 
-        
-        return  df.format(cantidadBueno);
-
-        
+        return df.format(cantidadBueno);
 
     }
 
     public String buscarCantidadMal() {
 
-           this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
-           
-     
-        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones());
+        this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
+
         this.setCantidadMal((float) (this.opcionFacadeLocal.findByBoton(3).size() * 100) / cantidadTotalOpiniones);
 
         DecimalFormat df = new DecimalFormat("##.##");
         df.setRoundingMode(RoundingMode.DOWN);
 
-        
-        return  df.format(cantidadMal);
-
-      
+        return df.format(cantidadMal);
 
     }
 
     public String buscarCantidadPesimo() {
 
-          this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
-           
-     
-        System.out.println("la cantidad total de opiniones es ---: " + this.getCantidadTotalOpiniones());
+        this.setCantidadTotalOpiniones(opcionFacadeLocal.findAll().size());
+
         this.setCantidadPesimo((float) (this.opcionFacadeLocal.findByBoton(4).size() * 100) / cantidadTotalOpiniones);
 
         DecimalFormat df = new DecimalFormat("##.##");
         df.setRoundingMode(RoundingMode.DOWN);
 
-        
-        return  df.format(cantidadPesimo);
+        return df.format(cantidadPesimo);
 
-        
+    }
+
+    public String buscarPregunta() {
+
+        String pregunta = configuracionesFacadeLocal.findById(1).getPregunta();
+
+        return pregunta;
+
     }
 
 }
